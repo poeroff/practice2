@@ -22,10 +22,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/poeroff/Node_practice2.git"
-  },
+  "repository": {},
   "bugs": {
     "url": "https://github.com/poeroff/Node_practice2/issues"
   },
