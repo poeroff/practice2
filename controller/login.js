@@ -7,7 +7,7 @@ require("dotenv").config();
 exports.postsignup = async (req, res, next) => {
   const { email, nickname, password, checkpassword } = req.body;
   const error = validationResult(req);
-  await User.create({ email: "", nickname: "", password: "" });
+  // await User.create({ email: "", nickname: "", password: "" });
   if (!error.isEmpty()) {
     return res.status(422).json({ error: error.array()[0].msg });
   }

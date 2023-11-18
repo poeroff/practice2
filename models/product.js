@@ -24,10 +24,7 @@ const product = seauelize.define("product", {
     allowNull: false,
   },
 });
-product.associate = (models) => [
-  product.belongsTo(models.User, {
-    foreignKey: "userId",
-    sourceKey: "userId",
-  }),
-];
+
+product.belongsTo(User, { foreignKey: "userId", as: "userinfo" });
+
 module.exports = product;

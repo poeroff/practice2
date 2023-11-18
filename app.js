@@ -16,7 +16,7 @@ app.use("/auth", loginrouter);
 app.use(productrouter);
 app.use(flash());
 
-Product.belongsTo(User, { foreignKey: "userId", as: "userinfo" });
+
 
 sequelize.sync().then((result) => {
   console.log("5000번 포트에 연결이 성공하였습니다");

@@ -25,43 +25,39 @@ exports.postcreate = async (req, res, next) => {
 
 exports.postupdate = async (req, res, next) => {
   const { title, content, condition } = req.body;
-  const { update } = req.params;
+  
   const { productId } = req.params;
   const error = validationResult(req);
 
   if (!error.isEmpty()) {
     return res.status(422).json({ error: error.array()[0].msg });
   }
-  // 타입 변환 없이 문자열 비교
-
-  if (res.locals.user === update) {
-    const result = await Product.findOne({ where: { productId: productId } });
+    const result = await Product.findOne({ where: { productId: productId ,userId : res.locals.user } });
     if (result) {
-      await Product.update(
-        { title: title, content: content, condition: condition },
-        { where: { productId: productId, userId: update } }
+      await result.update(
+        { title: title, content: content, condition: condition }
       );
       return res.status(200).json({ message: "success" });
     }
     return res.status(403).json({ errorMessage: "상품 조회에 실패하였습니다" });
-  }
+  
 };
 
 exports.postDelete = async (req, res, next) => {
-  const { del } = req.params;
+  
   const { productId } = req.params;
-  if (res.locals.user === del) {
-    const result = await Product.findOne({ where: { productId: productId } });
+  
+    const result = await Product.findOne({ where: { productId: productId ,userId : res.locals.user} });
     if (result) {
-      await Product.destroy({ where: { productId: productId, userId: del } });
+      await result.destroy();
       return res.status(200).json({ message: "success" });
     }
     return res.status(403).json({ errorMessage: "상품 조회에 실패하였습니다" });
-  }
+  
 };
 
 exports.productsearch = async (req, res, next) => {
-  console.log(res.locals.user);
+  
   const result = await Product.findAll({
     where: { userId: res.locals.user },
     order: [["createdAt", "DESC"]],
@@ -71,7 +67,6 @@ exports.productsearch = async (req, res, next) => {
 };
 exports.getdetail = async (req, res, next) => {
   const { detail } = req.params;
-  console.log(res.locals.user);
   const result = await Product.findOne({
     where: { userId: res.locals.user, productId: detail },
     include: { model: User, as: "userinfo", attributes: ["nickname"] },
